@@ -1,7 +1,5 @@
-from telethon import TelegramClient, events, sync
-from telethon.tl import functions
+from telethon import TelegramClient
 from telethon.tl.functions.users import GetFullUserRequest
-from telethon.errors import SessionPasswordNeededError
 import Config
 
 
@@ -15,18 +13,16 @@ def harvest(username):
     # entity = client.get_entity(username)
     entity = client(GetFullUserRequest(username))
     user = entity.__getattribute__("user")
-    print(entity)
     print("id: ", user.__getattribute__("id"))
     print("access_hash: ", user.__getattribute__("access_hash"))
     print("first_name: ", user.__getattribute__("first_name"))
     print("last_name: ", user.__getattribute__("last_name"))
     print("phone: ", user.__getattribute__("phone"))
     print("status: ", user.__getattribute__("status"))
+    print("bio: ", entity.__getattribute__("about"))
 
     photo = client.download_profile_photo(username)
     print("photo location: ", photo)
-
-    print("bio: ", entity.__getattribute__("about"))
 
 
 def main():
