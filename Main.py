@@ -4,6 +4,10 @@ import Config
 
 
 def harvest(username):
+    """
+    Create a client and collect and print information about the target user
+    :param username: target username
+    """
     host_api_id = Config.api_id
     host_api_hash = Config.api_hash
     host_user_id = Config.user_id
