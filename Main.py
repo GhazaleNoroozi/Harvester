@@ -30,6 +30,16 @@ def harvest_user(client, entity):
           )
 
 
+def harvest_by_phone(client, phone):
+    try:
+        entity = client(users.GetFullUserRequest(id=phone))
+    except ValueError:
+        print("There is no account connected to this phone number.")
+        return
+
+    harvest_user(client, entity)
+
+
 def harvest_by_username(client, username):
     """
     Print information about the target user by creating a client
@@ -57,8 +67,12 @@ def main():
     host_user_id = Config.user_id
     host_phone = Config.phone
 
+    code = input('Do you want to find the user based on username or phone number? [u/p] ')
     with TelegramClient(host_user_id, host_api_id, host_api_hash) as client:
-        harvest_by_username(client, input('Enter username: '))
+        if code == 'u':
+            harvest_by_username(client, input('Enter username: '))
+        else:
+            harvest_by_phone(client, input('Enter phone number (don\'t forget the country code): '))
 
 
 if __name__ == '__main__':
