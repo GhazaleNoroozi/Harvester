@@ -1,37 +1,64 @@
-from telethon import TelegramClient
-from telethon.tl.functions.users import GetFullUserRequest
+from telethon.sync import TelegramClient
+from telethon.tl.functions import users
+from telethon.tl.types import User, Channel
 import Config
 
 
-def harvest(username):
-    """
-    Create a client and collect and print information about the target user
-    :param username: target username
-    """
-    host_api_id = Config.api_id
-    host_api_hash = Config.api_hash
-    host_user_id = Config.user_id
-    client = TelegramClient(host_user_id, host_api_id, host_api_hash)
-    client.start()
-
-    # entity = client.get_entity(username)
-    entity = client(GetFullUserRequest(username))
+def harvest_user(client, entity):
     user = entity.__getattribute__("user")
-    print("id: ", user.__getattribute__("id"))
-    print("access_hash: ", user.__getattribute__("access_hash"))
-    print("first_name: ", user.__getattribute__("first_name"))
-    print("last_name: ", user.__getattribute__("last_name"))
-    print("phone: ", user.__getattribute__("phone"))
-    print("status: ", user.__getattribute__("status"))
-    print("bio: ", entity.__getattribute__("about"))
+    username = user.__getattribute__("username")
+    photo_location = client.download_profile_photo(username)
+    is_bot = user.__getattribute__('bot')
+    about = entity.__getattribute__("about")
+    tid = user.__getattribute__("id")
+    access_hash = user.__getattribute__("access_hash")
+    first_name = user.__getattribute__("first_name")
+    last_name = user.__getattribute__("last_name")
+    phone = user.__getattribute__("phone")
+    status = user.__getattribute__("status")
 
-    photo = client.download_profile_photo(username)
-    print("photo location: ", photo)
+    print('username: ', username,
+          '\nid: ', tid,
+          '\naccess_hash: ', access_hash,
+          '\nis_bot: ', is_bot,
+          '\nfirst_name: ', first_name,
+          '\nlast_name: ', last_name,
+          '\nphone number: ', phone,
+          '\nbio: ', about,
+          '\nstatus: ', status,
+          '\nphoto file location: ', photo_location
+          )
+
+
+def harvest_by_username(client, username):
+    """
+    Print information about the target user by creating a client
+    :param client: The host client
+    :param username: Target username
+    """
+    try:
+        entity = client.get_entity(username)
+    except ValueError:
+        print("This username does not exist")
+        return
+
+    if type(entity) == User:
+        entity = client(users.GetFullUserRequest(id=username))
+        harvest_user(client, entity)
+    elif type(entity) == Channel:
+        print("This username either belongs to a channel or a group")
+    else:
+        print("This username does not belong to  a user, bot, channel or a group")
 
 
 def main():
-    username = input('Please enter telegram username:')
-    harvest(username)
+    host_api_id = Config.api_id
+    host_api_hash = Config.api_hash
+    host_user_id = Config.user_id
+    host_phone = Config.phone
+
+    with TelegramClient(host_user_id, host_api_id, host_api_hash) as client:
+        harvest_by_username(client, input('Enter username: '))
 
 
 if __name__ == '__main__':
