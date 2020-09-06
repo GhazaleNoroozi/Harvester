@@ -67,12 +67,17 @@ def main():
     host_user_id = Config.user_id
     host_phone = Config.phone
 
+    client = TelegramClient(host_user_id, host_api_id, host_api_hash)
+    client.connect()
+    if not client.is_user_authorized():
+        client.send_code_request(host_phone)
+        client.sign_in(host_phone, input('Enter code sent to your telegram: '))
+
     code = input('Do you want to find the user based on username or phone number? [u/p] ')
-    with TelegramClient(host_user_id, host_api_id, host_api_hash) as client:
-        if code == 'u':
-            harvest_by_username(client, input('Enter username: '))
-        else:
-            harvest_by_phone(client, input('Enter phone number (don\'t forget the country code): '))
+    if code == 'u':
+        harvest_by_username(client, input('Enter username: '))
+    else:
+        harvest_by_phone(client, input('Enter phone number (don\'t forget the country code): '))
 
 
 if __name__ == '__main__':
