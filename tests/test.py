@@ -1,5 +1,5 @@
 import unittest
-from src.Main import *
+from src.main import *
 
 client = create_client()
 

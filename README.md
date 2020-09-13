@@ -6,10 +6,10 @@ This project is a simple code for retrieving a telegram user information by its 
 
 ### Installing
 
-Use [Isntall.sh](https://github.com/GhazaleNoroozi/Harvester/blob/master/Install.sh) file for installation on linux.
+Use [isntall.sh](https://github.com/GhazaleNoroozi/Harvester/blob/master/Install.sh) file for installation on linux.
 ```
-chmod +x Install.sh
-./Install.sh
+chmod +x install.sh
+./install.sh
 ```
 ## Running the tests
 

@@ -81,7 +81,7 @@ def harvest_by_username(client, username):
 
 def create_client():
     """
-    Create and connect a telegram client using information in Config.py file
+    Create and connect a telegram client using information in config.py file
     :return: Created client
     """
     host_api_id = Config.api_id
