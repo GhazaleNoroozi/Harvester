@@ -4,12 +4,13 @@ This project is a simple code for retrieving a telegram user information by its 
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
-
 ### Installing
 
-Use [isntall.sh](https://github.com/GhazaleNoroozi/EmailValidation/blob/master/install.sh) file for installation on linux.
-
+Use [Isntall.sh](https://github.com/GhazaleNoroozi/Harvester/blob/master/Install.sh) file for installation on linux.
+```
+chmod +x Install.sh
+./Install.sh
+```
 ## Running the tests
 
 For running the tests cd in the project directory and run command below:
